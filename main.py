@@ -1,3 +1,4 @@
+import pickle
 class Task:
     def __init__(self, description):
         self.description = description
@@ -27,11 +28,13 @@ class TaskManager:
         else:
             print("Invalid task index.")
 
-    def write_tasks(self):
+    def write_tasks(self, filename):
         """
         This method writes the list of tasks to a file
         """
-        pass
+        with open(filename, 'wb') as file:
+            pickle.dump(self.tasks, file)
+        
 
 def main():
     task_manager = TaskManager()
@@ -55,8 +58,9 @@ def main():
             task_index = int(input("Enter task index to mark as completed: "))
             task_manager.mark_task_completed(task_index)
         elif choice == "4":
-            print("Exiting program.")
-            break
+            filename = input("Enter filename to save tasks: ")
+            task_manager.write_tasks(filename)
+            print("Tasks saved to file.")
         else:
             print("Invalid choice. Please try again.")
 
